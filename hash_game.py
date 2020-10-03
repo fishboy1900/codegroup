@@ -48,11 +48,14 @@ def main():
             print(X)
             j_1 = input('Jogador 1 (x,y): ')
             try:
+                  # Validating the input.
                   if len(j_1) == 3 and int(j_1[0]) >= 0 and int(j_1[2]) <= 2:
+                        # Checking if the place is already filled.
                         if X[int(j_1[0])][int(j_1[2])] == 0:
+                              # Marking the place for the player 1.
                               X[int(j_1[0])][int(j_1[2])] = 1
                               print(X)
-
+                              # Checking if there is a winner.
                               if winner(X)[:8] == 'Vencedor':
                                     print(winner(X))
                                     break
@@ -68,13 +71,18 @@ def main():
             except:
                   raise InvalidInput
 
+            # Now, its second's player time.
             j_2 = input('Jogador 2 (x,y): ')
 
             try:
+                  # Validating the input.
                   if len(j_2) == 3 and int(j_2[0]) >= 0 and int(j_2[2]) <= 2:
+                        # Checking if the place is already filled.
                         if X[int(j_2[0])][int(j_2[2])] == 0:
+                              # Marking the place for the player 2.
                               X[int(j_2[0])][int(j_2[2])] = 2
                               print(X)
+                              # Checking if there is a winner.
                               if winner(X)[:8] == 'Vencedor':
                                     print(winner(X))
                                     break
