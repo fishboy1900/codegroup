@@ -1,11 +1,6 @@
 import random as rd
 import pandas as pd
-
-#game = {'(0,0)':[0], '(0,1)':[0], '(0,2)':[0],'(1,0)':[0],'(1,1)':[0],'(1,2)':[0],'(2,0)':[0],'(2,1)':[0],'(2,2)':[0], 'Winner:':['']}
-#df = pd.DataFrame(data=game)
-
-#print(df)
-
+import numpy as np
 
 # Function that receives the list of lists X and return the winner.
 def winner(X):
@@ -57,14 +52,19 @@ def winner(X):
 
       return win
 
-
-# Lets generate some random games, check who is the winner and append it to a Pandas DataFrame.
+# Now we are going to generate some random games, check who is the winner and append it to a Pandas DataFrame.
 X = [[0,0,0],[0,0,0],[0,0,0]]
+nX = []
 
-j_1 = rd.randint(1,2)
-j_2 = 3-j_1
+# Defining the structure of the Pandas Dataframe.
+df = pd.DataFrame({'(0,0)': np.NaN,'(0,1)': np.NaN,'(0,2)': np.NaN,'(1,0)': np.NaN,'(1,1)': np.NaN,'(1,2)': np.NaN,'(2,0)': np.NaN,'(2,1)': np.NaN,'(2,2)': np.NaN, 'Winner': np.NaN}, columns = ['(0,0)','(0,1)','(0,2)','(1,0)','(1,1)','(1,2)','(2,0)','(2,1)','(2,2)', 'Winner'])
 
 def main():
+      global df
+
+      # Defining the players.
+      j_1 = rd.randint(1,2)
+      j_2 = 3-j_1
       # First player.
       while 0 in X[0] or 0 in X[1] or 0 in X[2]:
             a_1 = rd.randint(0,2)
@@ -72,12 +72,13 @@ def main():
             # Checking if the random is open to receive a position.
             if X[a_1][a_2] == 0:
                   X[a_1][a_2] = j_1
+                  
                   # Checking if the player won with this movement.
                   if winner(X)[0] == 'V':
-                        print(X, 'Vencedor:',winner(X)[1])
                         break
+
+                  # Checking if there is a tie.     
                   elif winner(X)[0] == 'E':
-                        print(X,"Empate")
                         break
                   else:
                         pass
@@ -89,19 +90,33 @@ def main():
                         # Checking if the random cell is zero.
                         if X[b_1][b_2] == 0:
                               X[b_1][b_2] = j_2
+
                               # 'c' is to identify that the second player has made a move.
                               c = 1
                               # Checking if the player won with this movement.
                               if winner(X)[0] == 'V':
-                                    print(X, 'Vencedor:',winner(X)[1])
                                     break
+
+                              # Checking if there is a tie.      
                               elif winner(X)[0] == 'E':
-                                    print(X,"Empate")
                                     break
+                                    
                               else: 
                                     pass
                         else:
                               pass
             else:
                   pass
-main()
+
+      # Turning the list of lists 'X' into one single list.
+      for sublist in X:
+            for item in sublist:
+                  nX.append(item)
+
+      # Inserting the values into a new pandas dataframe row.
+      df = df.append({'(0,0)': nX[0],'(0,1)': nX[1],'(0,2)': nX[2],'(1,0)': nX[3],'(1,1)': nX[4],'(1,2)': nX[5],'(2,0)': nX[6],'(2,1)': nX[7],'(2,2)': nX[8], 'Winner': winner(X)[1]}, ignore_index=True)
+
+for i in range(5):
+      main()
+
+print(df)
