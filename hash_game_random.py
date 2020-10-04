@@ -1,12 +1,16 @@
-class InvalidInput(Exception):
-	pass
+import random as rd
+import pandas as pd
 
-class InvalidPlay(Exception):
-	pass
+#game = {'(0,0)':[0], '(0,1)':[0], '(0,2)':[0],'(1,0)':[0],'(1,1)':[0],'(1,2)':[0],'(2,0)':[0],'(2,1)':[0],'(2,2)':[0], 'Winner:':['']}
+#df = pd.DataFrame(data=game)
 
+#print(df)
+
+
+# Function that receives the list of lists X and return the winner.
 def winner(X):
       win = 'N'
-      # Horizontal case.
+      # Horizontal cases.
       for l in range(3):
             if X[l][0] == X[l][1] == X[l][2] == 1:
                   win = 'V1'
@@ -17,7 +21,7 @@ def winner(X):
             else:
                   pass
 
-      # Vertical case.
+      # Vertical cases.
       for c in range(3):
             if X[0][c] == X[1][c] == X[2][c] == 1:
                   win = 'V1'
@@ -44,75 +48,60 @@ def winner(X):
       else:
             pass
 
+      # Tie case.
+      if (0 not in X[0] and 0 not in X[1] and 0 not in X[2]) and win == 'N':
+            win = 'E0'
+
+      else:
+            pass
+
       return win
 
+
+# Lets generate some random games, check who is the winner and append it to a Pandas DataFrame.
+X = [[0,0,0],[0,0,0],[0,0,0]]
+
+j_1 = rd.randint(1,2)
+j_2 = 3-j_1
+
 def main():
-
-      X = [[0,0,0],[0,0,0],[0,0,0]]
-      p = 0
-      while p<=8:
-            for line in X:
-                  print(line)
-            j_1 = input('Jogador 1 (x,y): ')
-            try:
-                  # Validating the input.
-                  if len(j_1) == 3 and int(j_1[0]) >= 0 and int(j_1[2]) <= 2:
-                        # Checking if the place is already filled.
-                        if X[int(j_1[0])][int(j_1[2])] == 0:
-                              # Marking the place for the player 1.
-                              X[int(j_1[0])][int(j_1[2])] = 1
-                              p += 1
-                              print("p: ",p)
-                              for line in X:
-                                    print(line)
-                              if p == 9:
-                                    print("Empate")
-                                    break
-                              else:
-                                    # Checking if there is a winner.
-                                    if winner(X)[0] == 'V':
-                                          print(winner(X)[1])
-                                          break
-                                    else: 
-                                          pass
-                        
-                        else:
-                              raise InvalidPlay
-
+      # First player.
+      while 0 in X[0] or 0 in X[1] or 0 in X[2]:
+            a_1 = rd.randint(0,2)
+            a_2 = rd.randint(0,2)
+            # Checking if the random is open to receive a position.
+            if X[a_1][a_2] == 0:
+                  X[a_1][a_2] = j_1
+                  # Checking if the player won with this movement.
+                  if winner(X)[0] == 'V':
+                        print(X, 'Vencedor:',winner(X)[1])
+                        break
+                  elif winner(X)[0] == 'E':
+                        print(X,"Empate")
+                        break
                   else:
-                        raise InvalidInput 
-
-            except:
-                  raise InvalidInput
-                  
-            # Now, its second's player time.
-            j_2 = input('Jogador 2 (x,y): ')
-
-            try:
-                  # Validating the input.
-                  if len(j_2) == 3 and int(j_2[0]) >= 0 and int(j_2[2]) <= 2:
-                        # Checking if the place is already filled.
-                        if X[int(j_2[0])][int(j_2[2])] == 0:
-                              # Marking the place for the player 2.
-                              X[int(j_2[0])][int(j_2[2])] = 2
-                              p += 1
-                              print("p: ",p)
-                              for line in X:
-                                    print(line)
-                              # Checking if there is a winner.
+                        pass
+                  c = 0
+                  # Second player.
+                  while (0 in X[0] or 0 in X[1] or 0 in X[2]) and c == 0: 
+                        b_1 = rd.randint(0,2)
+                        b_2 = rd.randint(0,2)
+                        # Checking if the random cell is zero.
+                        if X[b_1][b_2] == 0:
+                              X[b_1][b_2] = j_2
+                              # 'c' is to identify that the second player has made a move.
+                              c = 1
+                              # Checking if the player won with this movement.
                               if winner(X)[0] == 'V':
-                                    print(winner(X)[1])
+                                    print(X, 'Vencedor:',winner(X)[1])
+                                    break
+                              elif winner(X)[0] == 'E':
+                                    print(X,"Empate")
                                     break
                               else: 
                                     pass
-                              print("\n", '=================================', "\n")
-                        
                         else:
-                              raise InvalidPlay
-
-                  else:
-                        raise InvalidInput 
-
-            except:
-                  raise InvalidInput
+                              pass
+            else:
+                  pass
 main()
