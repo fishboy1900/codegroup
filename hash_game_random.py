@@ -62,6 +62,8 @@ df = pd.DataFrame({'(0,0)': np.NaN,'(0,1)': np.NaN,'(0,2)': np.NaN,'(1,0)': np.N
 def main():
       global df
 
+      X = [[0,0,0],[0,0,0],[0,0,0]]
+
       # Defining the players.
       j_1 = rd.randint(1,2)
       j_2 = 3-j_1
@@ -108,15 +110,10 @@ def main():
             else:
                   pass
 
-      # Turning the list of lists 'X' into one single list.
-      for sublist in X:
-            for item in sublist:
-                  nX.append(item)
-
       # Inserting the values into a new pandas dataframe row.
-      df = df.append({'(0,0)': nX[0],'(0,1)': nX[1],'(0,2)': nX[2],'(1,0)': nX[3],'(1,1)': nX[4],'(1,2)': nX[5],'(2,0)': nX[6],'(2,1)': nX[7],'(2,2)': nX[8], 'Winner': winner(X)[1]}, ignore_index=True)
+      df = df.append({'(0,0)': X[0][0],'(0,1)': X[0][1],'(0,2)': X[0][2],'(1,0)': X[1][0],'(1,1)': X[1][1],'(1,2)': X[1][2],'(2,0)': X[2][0],'(2,1)': X[2][1],'(2,2)': X[2][2], 'Winner': winner(X)[1]}, ignore_index=True)
 
-for i in range(5):
+for i in range(500):
       main()
 
 print(df)
