@@ -1,4 +1,13 @@
 def valid_move(X, player):
+    """This function will return a two pair tuple with valid index to hash table game
+
+    Args:
+        X (list): [the hash table]
+        player (int): [the numeral that reprent a player]
+
+    Returns:
+        [tuple]: [two valid index to hash table game]
+    """
     valid = True
     valid_input = (0, 1, 2)
     
@@ -27,6 +36,14 @@ def hash_board(X):
     return tabuleiro
     
 def winner(X):
+    """Returns True if a player won the game else False
+
+    Args:
+        X (list): [the hash table]
+
+    Returns:
+        [boolean]: True if a player won the game else False
+    """
   # Horizontal case.
     for l in range(3):
         if X[l][0] == X[l][1] == X[l][2] != 0:
@@ -43,6 +60,7 @@ def winner(X):
 
     elif X[2][0] == X[1][1] == X[0][2] != 0:
         return True
+    return False
 
 
 def main():
