@@ -1,8 +1,18 @@
-class InvalidInput(Exception):
-	pass
-
-class InvalidPlay(Exception):
-	pass
+def valid_move(X, player):
+    valid = True
+    valid_input = (0, 1, 2)
+    
+    while valid:
+        move = input('Por favor Jogador {}, faça sua jogada (x,y): '.format(player))
+        # built in function to cut the input in two pair tuple
+        pos = move.split(",")
+        move_tuple = [int(num) for num in pos]
+        
+        if move_tuple[0] in valid_input and move_tuple[1] in valid_input and X[move_tuple[0]][move_tuple[1]] == 0:
+            valid = False
+        else:
+            print("InvalidPlay")
+    return move_tuple
 
 def hash_board(X):
     
@@ -36,39 +46,26 @@ def winner(X):
 
 
 def main():
-
     X = [[0,0,0],[0,0,0],[0,0,0]]
-    valid_input = (0, 1, 2)
-    
+
     # infinite loop
     while True:
         # looping to change player
         for player in (1,2):
             # printing the hash board
             print(hash_board(X))
+            move_tuple = valid_move(X, player)
+
+            # Marking the place for the player 1 or 2.
+            X[move_tuple[0]][move_tuple[1]] = player
+            if winner(X):
+                print("Parabéns, o Jogador {} ganhou!!!".format(player))
+                print(hash_board(X))
+                return
             
-            move = input('Por favor Jogador {}, faça sua jogada (x,y): '.format(player))
-            # built in function to cut the input in two pair tuple
-            move_tuple = move.split(",")
-            move_tuple = [int(num) for num in move_tuple] # compact for to change strings to in
-
-            try:
-            # Validating the input.
-                if move_tuple[0] in valid_input and move_tuple[1] in valid_input and X[move_tuple[0]][move_tuple[1]] == 0:
-                    # Marking the place for the player 1 or 2.
-                    X[move_tuple[0]][move_tuple[1]] = player
-                    if winner(X):
-                        print("Parabéns, o Jogador {} ganhou!!!".format(player))
-                        return
-                    
-                    for line in X:
-                        if 0 not in line:
-                            print("Empate!")
-                            return
-                    else:
-                        continue
-
-            except:
-                raise InvalidInput
+            if 0 not in (*X[0], *X[1], *X[2]):
+                print("Empate!")
+                print(hash_board(X))
+                return
 
 main()
