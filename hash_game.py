@@ -86,4 +86,5 @@ def main():
                 print(hash_board(X))
                 return
 
-main()
+if __name__ == "__main__":
+    main()
