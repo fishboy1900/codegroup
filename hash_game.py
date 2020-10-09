@@ -1,24 +1,24 @@
 def valid_move(X, player):
-    """This function will return a two pair tuple with valid index to hash table game
+    """This function will return a two pair tuple with valid index from hash table game
 
     Args:
         X (list): [the hash table]
         player (int): [the numeral that reprent a player]
 
     Returns:
-        [tuple]: [two valid index to hash table game]
+        move_tuple (tuple): [two valid index from hash table game]
     """
-    valid = True
+    invalid = True
     valid_input = (0, 1, 2)
     
-    while valid:
+    while invalid:
         move = input('Por favor Jogador {}, faça sua jogada (x,y): '.format(player))
         # built in function to cut the input in two pair tuple
         pos = move.split(",")
         move_tuple = [int(num) for num in pos]
         
         if move_tuple[0] in valid_input and move_tuple[1] in valid_input and X[move_tuple[0]][move_tuple[1]] == 0:
-            valid = False
+            invalid = False
         else:
             print("InvalidPlay")
     return move_tuple
